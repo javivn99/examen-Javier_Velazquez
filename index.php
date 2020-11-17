@@ -1,5 +1,11 @@
 <?php
 
+require_once 'vendor/autoload.php';
+
+use Ballen\Distical\Calculator as DistanceCalculator;
+use Ballen\Distical\Entities\LatLong;
+
+
 echo'
 
 <!DOCTYPE html>
@@ -57,22 +63,22 @@ echo'
                 
                 <div class="input-field col s2">
                     <label for="n_entero">Introduce la Latitud Punto 1:</label>
-                    <input name="n_entero" type="text" class="validate">
+                    <input name="n_entero1" type="text" class="validate">
                     
                 </div>
                 <div class="input-field col s2">
                     <label for="n_entero">Introduce la Longitud  Punto 1:</label>
-                    <input name="n_entero" type="text" class="validate">
+                    <input name="n_entero2" type="text" class="validate">
                 
                 </div>
                 <div class="input-field col s2">
                     <label for="n_entero">Introduce la Latitud Punto 2:</label>
-                    <input name="n_entero" type="text" class="validate">
+                    <input name="n_entero3" type="text" class="validate">
                 
                 </div>
                 <div class="input-field col s2">
                     <label for="n_entero">Introduce la Longitud  Punto 2:</label>
-                    <input name="n_entero" type="text" class="validate">
+                    <input name="n_entero4" type="text" class="validate">
                 
                 </div>
                
@@ -91,8 +97,32 @@ echo'
     </div>
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.min.js"></script>
+    ';
+
+    if (isset($_REQUEST['calcular'])) {
+        $n1 = htmlspecialchars($_REQUEST['n_entero1']);
+        $n2 = htmlspecialchars($_REQUEST['n_entero2']);
+        $n3 = htmlspecialchars($_REQUEST['n_entero3']);
+        $n4 = htmlspecialchars($_REQUEST['n_entero4']);
+
+        // Set our Lat/Long coordinates
+        $ipswich = new LatLong($n1, $n2);
+        $london = new LatLong($n3, $n4);
+
+        // Get the distance between these two Lat/Long coordinates...
+        $distanceCalculator = new DistanceCalculator($ipswich, $london);
+
+        // You can then compute the distance...
+        $distance = $distanceCalculator->get();
+        // you can also chain these methods together eg. $distanceCalculator->get()->asMiles();
+
+        // We can now output the miles using the asMiles() method, you can also calculate and use asKilometres() or asNauticalMiles() as required!
+        echo 'La distancia en kilometros entre esos dos puntos es de: ' . $distance->asKilometres();
+    };
+    
+    echo '
 </body>
 
-</html>';
-
+</html>
+';
 
