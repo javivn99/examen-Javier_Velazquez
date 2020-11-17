@@ -5,6 +5,9 @@ require_once 'vendor/autoload.php';
 use Ballen\Distical\Calculator as DistanceCalculator;
 use Ballen\Distical\Entities\LatLong;
 
+use Symfony\Component\Routing\Exception\InvalidParameterException;
+
+
 
 echo'
 
@@ -99,6 +102,7 @@ echo'
     <script type="text/javascript" src="js/materialize.min.js"></script>
     ';
 
+    //CALCULAR DISTANCIA (FUNCIONA)
     if (isset($_REQUEST['calcular'])) {
         $n1 = htmlspecialchars($_REQUEST['n_entero1']);
         $n2 = htmlspecialchars($_REQUEST['n_entero2']);
@@ -118,7 +122,12 @@ echo'
 
         // We can now output the miles using the asMiles() method, you can also calculate and use asKilometres() or asNauticalMiles() as required!
         echo 'La distancia en kilometros entre esos dos puntos es de: ' . $distance->asKilometres();
+
+
+        //TRADUCIR AL INGLEs
+
     };
+
     
     echo '
 </body>
